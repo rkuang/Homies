@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Homies</string>
+    <string name="signout">Sign Out</string>
 </resources>
