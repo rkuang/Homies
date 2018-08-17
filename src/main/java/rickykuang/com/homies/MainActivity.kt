@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater;
+        val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.my_menu, menu)
         return true
     }
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        var currentUser: FirebaseUser? = mAuth.currentUser;
+        var currentUser: FirebaseUser? = mAuth.currentUser
         Log.d(TAG, "Logged in as: ${currentUser?.displayName}")
 
         if (currentUser == null) {
