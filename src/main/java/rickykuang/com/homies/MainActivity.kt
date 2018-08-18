@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -20,12 +21,18 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mPagerAdapter: MyPagerAdapter
+    private lateinit var mViewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
+
+        mPagerAdapter = MyPagerAdapter(supportFragmentManager)
+        mViewPager = findViewById(R.id.pager)
+        mViewPager.adapter = mPagerAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
