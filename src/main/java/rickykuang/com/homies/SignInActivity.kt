@@ -24,7 +24,7 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+//        setContentView(R.layout.activity_sign_in)
 
         mAuth = FirebaseAuth.getInstance()
     }
