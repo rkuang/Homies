@@ -1,6 +1,5 @@
 package rickykuang.com.homies
 
-import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -11,11 +10,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         mPagerAdapter = MyPagerAdapter(supportFragmentManager)
         mViewPager = findViewById(R.id.pager)
         mViewPager.adapter = mPagerAdapter
-        var tabLayout = findViewById<TabLayout>(R.id.tabLayout)
+
+        val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         tabLayout.setupWithViewPager(mViewPager, true)
 
         val drawables: IntArray = intArrayOf(
@@ -56,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        var currentUser: FirebaseUser? = mAuth.currentUser
+        val currentUser: FirebaseUser? = mAuth.currentUser
         Log.d(TAG, "Logged in as: ${currentUser?.displayName}")
 
         if (currentUser == null) {
@@ -69,10 +67,10 @@ class MainActivity : AppCompatActivity() {
         when (item!!.itemId) {
             R.id.signout -> {
                 AuthUI.getInstance()
-                        .signOut(this).addOnCompleteListener( OnCompleteListener {
+                        .signOut(this).addOnCompleteListener{
                             val intent = Intent(this, SignInActivity::class.java)
                             startActivity(intent)
-                        })
+                        }
                 return true
             }
             else -> return true
