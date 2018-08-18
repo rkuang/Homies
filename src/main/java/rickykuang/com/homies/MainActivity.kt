@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.Menu
@@ -33,6 +34,17 @@ class MainActivity : AppCompatActivity() {
         mPagerAdapter = MyPagerAdapter(supportFragmentManager)
         mViewPager = findViewById(R.id.pager)
         mViewPager.adapter = mPagerAdapter
+        var tabLayout = findViewById<TabLayout>(R.id.tabLayout)
+        tabLayout.setupWithViewPager(mViewPager, true)
+
+        val drawables: IntArray = intArrayOf(
+                R.drawable.baseline_chat_24,
+                R.drawable.baseline_calendar_today_24,
+                R.drawable.baseline_shopping_cart_24
+        )
+        for (i in 0..tabLayout.tabCount) {
+            tabLayout.getTabAt(i)?.setIcon(drawables[i])
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

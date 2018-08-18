@@ -17,8 +17,4 @@ class MyPagerAdapter(fm : FragmentManager) :  FragmentPagerAdapter(fm) {
         return fragment
     }
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return "Page " + (position + 1)
-    }
-
 }
