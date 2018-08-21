@@ -8,12 +8,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
 import rickykuang.com.homies.R
 import rickykuang.com.homies.adapters.MessagesAdapter
 import rickykuang.com.homies.models.Message
 import rickykuang.com.homies.utils.FirestoreUtil
+import java.util.*
 
 const val PAGE = "object"
 
@@ -53,6 +56,10 @@ class MessagesFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
         FirestoreUtil.initMessagesListener(db, messages, viewAdapter)
 
+        v.findViewById<ImageButton>(R.id.send_btn).setOnClickListener {
+            send_button_click_listener(db, v)
+        }
+
         return v
     }
 
@@ -64,5 +71,13 @@ class MessagesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "OnResume: ")
+    }
+
+    fun send_button_click_listener(db: FirebaseFirestore, v: View) {
+        val edit_message = v.findViewById<EditText>(R.id.edit_message)
+        if (edit_message.text.isNotEmpty()) {
+            val message = Message("Ricky Kuang", edit_message.text.toString(), Date())
+            FirestoreUtil.addMessage(db, message)
+        }
     }
 }

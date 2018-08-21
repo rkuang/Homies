@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import rickykuang.com.homies.R
 import rickykuang.com.homies.models.Message
+import java.text.DateFormat
 
 class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
 
@@ -45,17 +46,23 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
 
     object SentViewHolder {
         fun bind(message: Message, holder: MessagesAdapter.ViewHolder) {
+            val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
             val messageView = holder.v.findViewById<TextView>(R.id.message_body)
-            messageView.text = message.text
+            val timestampView = holder.v.findViewById<TextView>(R.id.timestamp)
+            messageView.text = message.message
+            timestampView.text = simpleDateFormat.format(message.timestamp)
         }
     }
 
     object ReceivedViewHolder {
         fun bind(message: Message, holder: MessagesAdapter.ViewHolder) {
+            val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
             val messageView = holder.v.findViewById<TextView>(R.id.message_body)
             val senderView = holder.v.findViewById<TextView>(R.id.message_from)
-            messageView.text = message.text
+            val timestampView = holder.v.findViewById<TextView>(R.id.timestamp)
+            messageView.text = message.message
             senderView.text = message.sender
+            timestampView.text = simpleDateFormat.format(message.timestamp)
         }
     }
 
