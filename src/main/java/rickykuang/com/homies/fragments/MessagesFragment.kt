@@ -54,7 +54,7 @@ class MessagesFragment : Fragment() {
         }
 
         val db = FirebaseFirestore.getInstance()
-        FirestoreUtil.initMessagesListener(db, messages, viewAdapter)
+        FirestoreUtil.initMessagesListener(db, messages, viewAdapter, recyclerView)
 
         v.findViewById<ImageButton>(R.id.send_btn).setOnClickListener {
             send_button_click_listener(db, v)
@@ -78,6 +78,7 @@ class MessagesFragment : Fragment() {
         if (edit_message.text.isNotEmpty()) {
             val message = Message("Ricky Kuang", edit_message.text.toString(), Date())
             FirestoreUtil.addMessage(db, message)
+            edit_message.text.clear()
         }
     }
 }

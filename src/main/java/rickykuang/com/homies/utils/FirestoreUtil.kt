@@ -1,6 +1,8 @@
 package rickykuang.com.homies.utils
 
+import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import rickykuang.com.homies.adapters.MessagesAdapter
@@ -11,7 +13,7 @@ object FirestoreUtil {
 
     val TAG = "FirestoreUtil"
 
-    fun initMessagesListener(db: FirebaseFirestore, messages: ArrayList<Message>, adapter: MessagesAdapter) {
+    fun initMessagesListener(db: FirebaseFirestore, messages: ArrayList<Message>, adapter: MessagesAdapter, recyclerView: RecyclerView) {
         db.collection("messages").orderBy("timestamp")
                 .addSnapshotListener(EventListener<QuerySnapshot> { snapshots, e ->
                     if (e != null) {
@@ -28,6 +30,7 @@ object FirestoreUtil {
                                         dc.document.get("message") as String,
                                         dc.document.get("timestamp") as Date))
                                 adapter.notifyItemInserted(0)
+                                recyclerView.scrollToPosition(0)
                             }
                             DocumentChange.Type.MODIFIED -> Log.d(TAG, "Modified city: " + dc.document.data)
                             DocumentChange.Type.REMOVED -> Log.d(TAG, "Removed city: " + dc.document.data)
