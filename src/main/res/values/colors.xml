@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#d32f2f</color>
     <color name="colorAccent">#ff5722</color>
     <color name="chat_background">#0ad32f2f</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

@@ -12,7 +12,7 @@ class MessagesAdapter(private val myDataset: Array<String>): RecyclerView.Adapte
     class ViewHolder(val v: View) : RecyclerView.ViewHolder(v)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.messages_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_received_message, parent, false)
         return ViewHolder(v)
     }
 
