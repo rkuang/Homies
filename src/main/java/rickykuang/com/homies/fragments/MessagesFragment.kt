@@ -51,7 +51,7 @@ class MessagesFragment : Fragment() {
         }
 
         val db = FirebaseFirestore.getInstance()
-        FirestoreUtil.getMessages(db, messages, viewAdapter)
+        FirestoreUtil.initMessagesListener(db, messages, viewAdapter)
 
         return v
     }
