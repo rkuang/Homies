@@ -1,4 +1,4 @@
-package rickykuang.com.homies
+package rickykuang.com.homies.activities
 
 import android.app.Activity
 import android.content.Intent

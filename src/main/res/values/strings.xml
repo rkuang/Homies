@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Homies</string>
     <string name="signout">Sign Out</string>
+    <string name="no_messages">Seems like there\'s nothing here…</string>
 </resources>
