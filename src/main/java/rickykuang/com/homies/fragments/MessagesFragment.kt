@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.transition.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +18,19 @@ import rickykuang.com.homies.utils.FirestoreUtil
 const val PAGE = "object"
 
 class MessagesFragment : Fragment() {
-
-    private val TAG = "Messages Fragment"
+    private val TAG = "MessagesFragment"
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: MessagesAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "OnCreate: ")
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d(TAG, "OnCreateView: ")
+
         val v: View = inflater.inflate(R.layout.fragment_messages, container, false)
         arguments?.takeIf { it.containsKey(PAGE) }?.apply {
             Log.d(TAG, "Argument received")
@@ -49,5 +54,15 @@ class MessagesFragment : Fragment() {
         FirestoreUtil.getMessages(db, messages, viewAdapter)
 
         return v
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "OnPause: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "OnResume: ")
     }
 }
