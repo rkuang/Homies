@@ -2,4 +2,8 @@
     <string name="app_name">Homies</string>
     <string name="signout">Sign Out</string>
     <string name="no_messages">Seems like there\'s nothing here…</string>
+    <string name="message">Message</string>
+    <string name="message_body">Hello, world! Welcome to Homies!</string>
+    <string name="john_doe">John Doe</string>
+    <string name="avatar">avatar</string>
 </resources>

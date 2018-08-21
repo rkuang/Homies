@@ -2,5 +2,6 @@
 <resources>
     <color name="colorPrimary">#f44336</color>
     <color name="colorPrimaryDark">#d32f2f</color>
-    <color name="colorAccent">#FF5722</color>
+    <color name="colorAccent">#ff5722</color>
+    <color name="chat_background">#0ad32f2f</color>
 </resources>
