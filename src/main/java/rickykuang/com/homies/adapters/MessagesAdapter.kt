@@ -14,7 +14,7 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
     val VT_SENT = 0
     val VT_RECEIVED = 1
 
-    class ViewHolder(val v: View) : RecyclerView.ViewHolder(v)
+    open class ViewHolder(val v: View) : RecyclerView.ViewHolder(v)
 
     override fun getItemViewType(position: Int): Int {
         val message: Message = myDataset[position]
@@ -36,30 +36,33 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
 
     override fun onBindViewHolder(holder: MessagesAdapter.ViewHolder, position: Int) {
         val message = myDataset[position]
+
         when (holder.itemViewType) {
-            VT_SENT -> SentViewHolder.bind(message, holder)
-            VT_RECEIVED -> ReceivedViewHolder.bind(message, holder)
+            VT_SENT -> SentViewHolder(holder.v).bind(message)
+            VT_RECEIVED -> ReceivedViewHolder(holder.v).bind(message)
         }
     }
 
     override fun getItemCount() = myDataset.size
 
-    object SentViewHolder {
-        fun bind(message: Message, holder: MessagesAdapter.ViewHolder) {
-            val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
-            val messageView = holder.v.findViewById<TextView>(R.id.message_body)
-            val timestampView = holder.v.findViewById<TextView>(R.id.timestamp)
+    class SentViewHolder(v: View) : MessagesAdapter.ViewHolder(v) {
+        val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
+        val messageView = v.findViewById<TextView>(R.id.message_body)
+        val timestampView = v.findViewById<TextView>(R.id.timestamp)
+
+        fun bind(message: Message) {
             messageView.text = message.message
             timestampView.text = simpleDateFormat.format(message.timestamp)
         }
     }
 
-    object ReceivedViewHolder {
-        fun bind(message: Message, holder: MessagesAdapter.ViewHolder) {
-            val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
-            val messageView = holder.v.findViewById<TextView>(R.id.message_body)
-            val senderView = holder.v.findViewById<TextView>(R.id.message_from)
-            val timestampView = holder.v.findViewById<TextView>(R.id.timestamp)
+    class ReceivedViewHolder(v: View) : MessagesAdapter.ViewHolder(v) {
+        val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
+        val messageView = v.findViewById<TextView>(R.id.message_body)
+        val senderView = v.findViewById<TextView>(R.id.message_from)
+        val timestampView = v.findViewById<TextView>(R.id.timestamp)
+
+        fun bind(message: Message) {
             messageView.text = message.message
             senderView.text = message.sender
             timestampView.text = simpleDateFormat.format(message.timestamp)
