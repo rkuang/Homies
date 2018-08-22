@@ -11,7 +11,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import rickykuang.com.homies.App
 import rickykuang.com.homies.adapters.MyPagerAdapter
 import rickykuang.com.homies.R
 
@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
 
-    private lateinit var mAuth: FirebaseAuth
     private lateinit var mPagerAdapter: MyPagerAdapter
     private lateinit var mViewPager: ViewPager
 
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mAuth = FirebaseAuth.getInstance()
+        App.mAuth = FirebaseAuth.getInstance()
 
         mPagerAdapter = MyPagerAdapter(supportFragmentManager)
         mViewPager = findViewById(R.id.pager)
@@ -55,10 +54,9 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val currentUser: FirebaseUser? = mAuth.currentUser
-        Log.d(TAG, "Logged in as: ${currentUser?.displayName}")
+        Log.d(TAG, "Logged in as: ${App.mAuth.currentUser?.displayName}")
 
-        if (currentUser == null) {
+        if (App.mAuth.currentUser == null) {
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
         }
