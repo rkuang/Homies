@@ -16,8 +16,8 @@ object FirestoreUtil {
     val TAG = "FirestoreUtil"
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
-    fun initMessagesListener(messages: ArrayList<Message>, adapter: MessagesAdapter, recyclerView: RecyclerView) {
-        db.collection("messages").orderBy("timestamp")
+    fun initMessagesListener(messages: ArrayList<Message>, adapter: MessagesAdapter, recyclerView: RecyclerView): ListenerRegistration {
+        return db.collection("messages").orderBy("timestamp")
                 .addSnapshotListener(EventListener<QuerySnapshot> { snapshots, e ->
                     if (e != null) {
                         Log.e(TAG, "Listen error", e)
@@ -33,26 +33,39 @@ object FirestoreUtil {
                                         Message(dc.document.get("senderId") as String,
                                                 dc.document.get("senderName") as String,
                                                 dc.document.get("message") as String,
-                                                dc.document.get("timestamp") as Date))
+                                                dc.document.get("timestamp") as Date?)
+                                )
 
                                 adapter.notifyItemInserted(0)
                                 recyclerView.scrollToPosition(0)
-                                try {
-                                    var position = 0
-                                    if (messages[position].senderId.equals(messages[position+1].senderId)) {
-                                        adapter.notifyItemChanged(1)
+//                                try {
+//                                    var position = 0
+//                                    if (messages[position].senderId.equals(messages[position+1].senderId)) {
+//                                        adapter.notifyItemChanged(1)
 //                                        position++
+//                                    }
+//                                } catch (e: IndexOutOfBoundsException) {
+//                                    Log.w(TAG, "IndexOutOfBounds")
+//                                }
+                            }
+                            DocumentChange.Type.MODIFIED -> {
+                                Log.d(TAG, "Modified message: " + dc.document.data)
+                                val m = Message(dc.document.get("senderId") as String,
+                                        dc.document.get("senderName") as String,
+                                        dc.document.get("message") as String,
+                                        dc.document.get("timestamp") as Date?)
+                                for (position in 0 until messages.size) {
+                                    if (m.equals(messages[position])) {
+                                        messages[position].timestamp = m.timestamp
+                                        adapter.notifyItemChanged(position)
+                                        break
                                     }
-                                } catch (e: IndexOutOfBoundsException) {
-                                    Log.w(TAG, "IndexOutOfBounds")
                                 }
                             }
-                            DocumentChange.Type.MODIFIED -> Log.d(TAG, "Modified city: " + dc.document.data)
-                            DocumentChange.Type.REMOVED -> Log.d(TAG, "Removed city: " + dc.document.data)
+                            DocumentChange.Type.REMOVED -> Log.d(TAG, "Removed message: " + dc.document.data)
                         }
                     }
-
-        })
+                })
     }
 
     fun addMessage(message: Message) {

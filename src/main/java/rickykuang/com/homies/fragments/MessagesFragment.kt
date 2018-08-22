@@ -11,11 +11,14 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ListenerRegistration
 import rickykuang.com.homies.App
 import rickykuang.com.homies.R
 import rickykuang.com.homies.adapters.MessagesAdapter
 import rickykuang.com.homies.models.Message
 import rickykuang.com.homies.utils.FirestoreUtil
+import java.sql.Timestamp
 import java.util.*
 
 
@@ -24,6 +27,7 @@ class MessagesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: MessagesAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var messageListener: ListenerRegistration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,7 @@ class MessagesFragment : Fragment() {
             adapter = viewAdapter
         }
 
-        FirestoreUtil.initMessagesListener(messages, viewAdapter, recyclerView)
+        messageListener = FirestoreUtil.initMessagesListener(messages, viewAdapter, recyclerView)
 
         v.findViewById<ImageButton>(R.id.send_btn).setOnClickListener {
             send_button_click_listener(v)
@@ -72,9 +76,20 @@ class MessagesFragment : Fragment() {
         val edit_message = v.findViewById<EditText>(R.id.edit_message)
         if (edit_message.text.isNotEmpty()) {
             val currentUser = App.mAuth.currentUser!!
-            val message = Message(currentUser.uid, currentUser.displayName!!, edit_message.text.toString(), Date())
+            val message = Message(currentUser.uid, currentUser.displayName!!, edit_message.text.toString(), null)
             FirestoreUtil.addMessage(message)
             edit_message.text.clear()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d(TAG, "OnDestroyView: ")
+        messageListener.remove()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "OnDestroy: ")
     }
 }

@@ -85,7 +85,10 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
 
         fun bind(message: Message, flag: Int) {
             messageView.text = message.message
-            timestampView.text = simpleDateFormat.format(message.timestamp)
+            if (message.timestamp == null)
+                timestampView.text = ""
+            else
+                timestampView.text = simpleDateFormat.format(message.timestamp)
             when (flag) {
                 0 -> {}
                 else -> {
@@ -107,7 +110,10 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
             Log.d(TAG, message.message)
             messageView.text = message.message
             senderView.text = message.senderName
-            timestampView.text = simpleDateFormat.format(message.timestamp)
+            if (message.timestamp == null)
+                timestampView.text = ""
+            else
+                timestampView.text = simpleDateFormat.format(message.timestamp)
             Log.d(TAG, "Flag is $flag  $message")
             when (flag) {
                 FLAG_RM_NAME -> senderView.visibility = View.GONE
