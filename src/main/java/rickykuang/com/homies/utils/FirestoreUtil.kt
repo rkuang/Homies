@@ -3,8 +3,10 @@ package rickykuang.com.homies.utils
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
+import rickykuang.com.homies.App
 import rickykuang.com.homies.adapters.MessagesAdapter
 import rickykuang.com.homies.models.Message
 import java.util.*
@@ -12,8 +14,9 @@ import java.util.*
 object FirestoreUtil {
 
     val TAG = "FirestoreUtil"
+    private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
-    fun initMessagesListener(db: FirebaseFirestore, messages: ArrayList<Message>, adapter: MessagesAdapter, recyclerView: RecyclerView) {
+    fun initMessagesListener(messages: ArrayList<Message>, adapter: MessagesAdapter, recyclerView: RecyclerView) {
         db.collection("messages").orderBy("timestamp")
                 .addSnapshotListener(EventListener<QuerySnapshot> { snapshots, e ->
                     if (e != null) {
@@ -26,11 +29,23 @@ object FirestoreUtil {
                         when (dc.type) {
                             DocumentChange.Type.ADDED -> {
                                 Log.d(TAG, "New message: " + dc.document.data)
-                                messages.add(0, Message(dc.document.get("sender") as String,
-                                        dc.document.get("message") as String,
-                                        dc.document.get("timestamp") as Date))
+                                messages.add(0,
+                                        Message(dc.document.get("senderId") as String,
+                                                dc.document.get("senderName") as String,
+                                                dc.document.get("message") as String,
+                                                dc.document.get("timestamp") as Date))
+
                                 adapter.notifyItemInserted(0)
                                 recyclerView.scrollToPosition(0)
+                                try {
+                                    var position = 0
+                                    if (messages[position].senderId.equals(messages[position+1].senderId)) {
+                                        adapter.notifyItemChanged(1)
+//                                        position++
+                                    }
+                                } catch (e: IndexOutOfBoundsException) {
+                                    Log.w(TAG, "IndexOutOfBounds")
+                                }
                             }
                             DocumentChange.Type.MODIFIED -> Log.d(TAG, "Modified city: " + dc.document.data)
                             DocumentChange.Type.REMOVED -> Log.d(TAG, "Removed city: " + dc.document.data)
@@ -40,14 +55,8 @@ object FirestoreUtil {
         })
     }
 
-    fun addMessage(db: FirebaseFirestore, message: Message) {
+    fun addMessage(message: Message) {
         db.collection("messages")
                 .add(message)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.id)
-                }
-                .addOnFailureListener {
-                    e -> Log.w(TAG, "Error adding document", e)
-                }
     }
 }

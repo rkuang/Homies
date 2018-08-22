@@ -11,14 +11,13 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
-import com.google.firebase.firestore.FirebaseFirestore
+import rickykuang.com.homies.App
 import rickykuang.com.homies.R
 import rickykuang.com.homies.adapters.MessagesAdapter
 import rickykuang.com.homies.models.Message
 import rickykuang.com.homies.utils.FirestoreUtil
 import java.util.*
 
-const val PAGE = "object"
 
 class MessagesFragment : Fragment() {
     private val TAG = "MessagesFragment"
@@ -35,9 +34,6 @@ class MessagesFragment : Fragment() {
         Log.d(TAG, "OnCreateView: ")
 
         val v: View = inflater.inflate(R.layout.fragment_messages, container, false)
-        arguments?.takeIf { it.containsKey(PAGE) }?.apply {
-            Log.d(TAG, "Argument received")
-        }
 
         val nothing_textView = v.findViewById<TextView>(R.id.no_messages)
         nothing_textView.visibility = View.GONE
@@ -53,11 +49,10 @@ class MessagesFragment : Fragment() {
             adapter = viewAdapter
         }
 
-        val db = FirebaseFirestore.getInstance()
-        FirestoreUtil.initMessagesListener(db, messages, viewAdapter, recyclerView)
+        FirestoreUtil.initMessagesListener(messages, viewAdapter, recyclerView)
 
         v.findViewById<ImageButton>(R.id.send_btn).setOnClickListener {
-            send_button_click_listener(db, v)
+            send_button_click_listener(v)
         }
 
         return v
@@ -73,11 +68,12 @@ class MessagesFragment : Fragment() {
         Log.d(TAG, "OnResume: ")
     }
 
-    fun send_button_click_listener(db: FirebaseFirestore, v: View) {
+    fun send_button_click_listener(v: View) {
         val edit_message = v.findViewById<EditText>(R.id.edit_message)
         if (edit_message.text.isNotEmpty()) {
-            val message = Message("Ricky Kuang", edit_message.text.toString(), Date())
-            FirestoreUtil.addMessage(db, message)
+            val currentUser = App.mAuth.currentUser!!
+            val message = Message(currentUser.uid, currentUser.displayName!!, edit_message.text.toString(), Date())
+            FirestoreUtil.addMessage(message)
             edit_message.text.clear()
         }
     }
