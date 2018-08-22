@@ -38,15 +38,10 @@ object FirestoreUtil {
 
                                 adapter.notifyItemInserted(0)
                                 recyclerView.scrollToPosition(0)
-//                                try {
-//                                    var position = 0
-//                                    if (messages[position].senderId.equals(messages[position+1].senderId)) {
-//                                        adapter.notifyItemChanged(1)
-//                                        position++
-//                                    }
-//                                } catch (e: IndexOutOfBoundsException) {
-//                                    Log.w(TAG, "IndexOutOfBounds")
-//                                }
+
+                                if (messages.size > 1 && messages[1].senderId.equals(messages[0].senderId)) {
+                                    adapter.notifyItemChanged(1)
+                                }
                             }
                             DocumentChange.Type.MODIFIED -> {
                                 Log.d(TAG, "Modified message: " + dc.document.data)

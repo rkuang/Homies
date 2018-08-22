@@ -41,29 +41,29 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
     override fun onBindViewHolder(holder: MessagesAdapter.ViewHolder, position: Int) {
         val message = myDataset[position]
 
-        var last_message: Message? = null
-        var next_message: Message? = null
+        var top_message: Message? = null
+        var bottom_message: Message? = null
         var flag = 0
-        var bool1 = false
-        var bool2 = false
+        var top_same = false
+        var bot_same = false
 
         if (position < myDataset.size-1)
-            last_message = myDataset[position+1]
+            top_message = myDataset[position+1]
 
         if (position > 0)
-            next_message = myDataset[position-1]
+            bottom_message = myDataset[position-1]
 
-        if (last_message != null)
-            bool1 = last_message.senderId.equals(message.senderId)
-        if (next_message != null)
-            bool2 = next_message.senderId.equals(message.senderId)
+        if (top_message != null)
+            top_same = top_message.senderId.equals(message.senderId)
+        if (bottom_message != null)
+            bot_same = bottom_message.senderId.equals(message.senderId)
 
-//        if (bool1)
-//            flag = FLAG_RM_NAME
-//        if (bool2)
-//            flag = FLAG_RM_AVATAR
-//        if (bool1 && bool2)
-//            flag = FLAG_RM_BOTH
+        if (top_same)
+            flag = FLAG_RM_NAME
+        else if (bot_same)
+            flag = FLAG_RM_AVATAR
+        if (top_same && bot_same)
+            flag = FLAG_RM_BOTH
 
         when (holder.itemViewType) {
             VT_SENT -> SentViewHolder(holder.v).bind(message, flag)
@@ -89,10 +89,16 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
                 timestampView.text = ""
             else
                 timestampView.text = simpleDateFormat.format(message.timestamp)
+            Log.d(TAG, "Flag is $flag  $message")
             when (flag) {
-                0 -> {}
-                else -> {
+                FLAG_RM_AVATAR -> {
                     padding.visibility = View.GONE
+                }
+                FLAG_RM_BOTH -> {
+                    padding.visibility = View.GONE
+                }
+                else -> {
+                    padding.visibility = View.VISIBLE
                 }
             }
         }
@@ -116,8 +122,13 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
                 timestampView.text = simpleDateFormat.format(message.timestamp)
             Log.d(TAG, "Flag is $flag  $message")
             when (flag) {
-                FLAG_RM_NAME -> senderView.visibility = View.GONE
+                FLAG_RM_NAME -> {
+                    senderView.visibility = View.GONE
+                    avatarView.visibility = View.VISIBLE
+                    padding.visibility = View.VISIBLE
+                }
                 FLAG_RM_AVATAR -> {
+                    senderView.visibility = View.VISIBLE
                     avatarView.visibility = View.INVISIBLE
                     padding.visibility = View.GONE
                 }
@@ -125,6 +136,11 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
                     senderView.visibility = View.GONE
                     avatarView.visibility = View.INVISIBLE
                     padding.visibility = View.GONE
+                }
+                else -> {
+                    senderView.visibility = View.VISIBLE
+                    avatarView.visibility = View.VISIBLE
+                    padding.visibility = View.VISIBLE
                 }
             }
         }
