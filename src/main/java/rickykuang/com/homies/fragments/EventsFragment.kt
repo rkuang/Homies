@@ -14,9 +14,6 @@ class EventsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_events, container, false)
-        arguments?.takeIf { it.containsKey(PAGE) }?.apply {
-            Log.d(TAG, "Argument received")
-        }
         return v
     }
 }
