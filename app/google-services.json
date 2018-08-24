@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "154783507293",
+    "firebase_url": "https://homies-db829.firebaseio.com",
+    "project_id": "homies-db829",
+    "storage_bucket": "homies-db829.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154783507293:android:9baa2db5c1139d23",
+        "android_client_info": {
+          "package_name": "rickykuang.com.homies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154783507293-bmmgk2bmsoes8f8otg0knb09amqr7raf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rickykuang.com.homies",
+            "certificate_hash": "2bb24ef7c09e4591ec972ac64b60f850ab37510b"
+          }
+        },
+        {
+          "client_id": "154783507293-5o4eppvp5vr95fpef6kctn5484rpcjle.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbbREDkSFEB8E7dGWZEa5tryRRbHHNKB8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154783507293-5o4eppvp5vr95fpef6kctn5484rpcjle.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
