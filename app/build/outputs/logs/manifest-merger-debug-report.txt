@@ -121,16 +121,16 @@ MERGED from [com.google.android.gms:play-services-measurement-base:16.0.0] C:\Us
 		ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:6:9-35
 	android:theme
 		ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:10:9-40
-activity#rickykuang.com.homies.activities.MainActivity
-ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:11:9-60
+activity#com.rickykuang.homies.activities.MainActivity
+ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:11:9-81
 	android:name
-		ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:11:19-58
-activity#rickykuang.com.homies.activities.SignInActivity
+		ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:11:19-79
+activity#com.rickykuang.homies.activities.SignInActivity
 ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:12:9-19:20
 	android:theme
 		ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:13:13-47
 	android:name
-		ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:12:19-60
+		ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:12:19-81
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
 ADDED from D:\Ricky\Projects\Homies\app\src\main\AndroidManifest.xml:14:13-18:29
 action#android.intent.action.MAIN
@@ -553,7 +553,7 @@ ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\cach
 		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:30:9-44
 	android:name
 		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:29:9-63
-permission#rickykuang.com.homies.permission.C2D_MESSAGE
+permission#com.rickykuang.homies.permission.C2D_MESSAGE
 ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:28:5-30:47
 	android:protectionLevel
 		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:30:9-44
@@ -563,7 +563,7 @@ uses-permission#${applicationId}.permission.C2D_MESSAGE
 ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:32:5-79
 	android:name
 		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:32:22-76
-uses-permission#rickykuang.com.homies.permission.C2D_MESSAGE
+uses-permission#com.rickykuang.homies.permission.C2D_MESSAGE
 ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:32:5-79
 	android:name
 		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:32:22-76
@@ -583,7 +583,7 @@ ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\cach
 		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:42:13-78
 intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:${applicationId}
 ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:45:13-49:29
-intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:rickykuang.com.homies
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:com.rickykuang.homies
 ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:45:13-49:29
 action#com.google.android.c2dm.intent.RECEIVE
 ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:46:17-81
@@ -593,7 +593,7 @@ category#${applicationId}
 ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:48:17-61
 	android:name
 		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:48:27-58
-category#rickykuang.com.homies
+category#com.rickykuang.homies
 ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:48:17-61
 	android:name
 		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\rkuan\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.0.0.aar\52760aa36b6e20a8635a84d08a6c2fc9\AndroidManifest.xml:48:27-58

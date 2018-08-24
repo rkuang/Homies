@@ -1035,11 +1035,9 @@
                 {
                     "source": "D:\\Ricky\\Projects\\Homies\\app\\src\\main\\res\\values\\colors.xml",
                     "from": {
-                        "startLines": "-1,-1,7,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,4,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,259,-1,-1,-1,-1",
-                        "endColumns": "-1,-1,45,-1,-1,-1,-1",
-                        "endOffsets": "-1,-1,300,-1,-1,-1,-1"
+                        "startLines": "-1,-1,-1,-1,-1,-1,-1",
+                        "startColumns": "-1,-1,-1,-1,-1,-1,-1",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1"
                     },
                     "to": {
                         "startLines": "146,163,164,165,166,167,237",
@@ -1207,9 +1205,11 @@
                 {
                     "source": "D:\\Ricky\\Projects\\Homies\\app\\build\\generated\\res\\google-services\\debug\\values\\values.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1"
+                        "startLines": "-1,-1,-1,-1,6,-1,-1,-1",
+                        "startColumns": "-1,-1,-1,-1,4,-1,-1,-1",
+                        "startOffsets": "-1,-1,-1,-1,492,-1,-1,-1",
+                        "endColumns": "-1,-1,-1,-1,102,-1,-1,-1",
+                        "endOffsets": "-1,-1,-1,-1,590,-1,-1,-1"
                     },
                     "to": {
                         "startLines": "941,944,1027,1028,1029,1030,1031,1041",
