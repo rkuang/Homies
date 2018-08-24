@@ -8,6 +8,50 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:154783507293:android:2dafb3d9a08e77a4",
+        "android_client_info": {
+          "package_name": "com.rickykuang.homies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154783507293-4gg35tjd90os9986tvrdg2mk2s9orijj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rickykuang.homies",
+            "certificate_hash": "2bb24ef7c09e4591ec972ac64b60f850ab37510b"
+          }
+        },
+        {
+          "client_id": "154783507293-5o4eppvp5vr95fpef6kctn5484rpcjle.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbbREDkSFEB8E7dGWZEa5tryRRbHHNKB8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154783507293-5o4eppvp5vr95fpef6kctn5484rpcjle.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:154783507293:android:9baa2db5c1139d23",
         "android_client_info": {
           "package_name": "rickykuang.com.homies"
