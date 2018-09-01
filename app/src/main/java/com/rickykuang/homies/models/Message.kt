@@ -8,14 +8,16 @@ data class Message(var senderId: String,
                    var message: String,
                    @ServerTimestamp var timestamp: Date?) {
 
+    // Required constructor for Firebase
     constructor(): this("", "", "",null)
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false
         val that = other as Message
-        if (senderId.equals(that.senderId) &&
-                senderName.equals(that.senderName) &&
-                message.equals(that.message)) return true
+        if (this.senderId.equals(that.senderId) &&
+                this.senderName.equals(that.senderName) &&
+                this.message.equals(that.message))
+            return true
         return false
     }
 
