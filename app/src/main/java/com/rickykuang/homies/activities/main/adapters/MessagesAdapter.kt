@@ -1,4 +1,4 @@
-package com.rickykuang.homies.adapters
+package com.rickykuang.homies.activities.main.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.rickykuang.homies.App
+import com.rickykuang.homies.Homies
 import com.rickykuang.homies.R
 import com.rickykuang.homies.models.Message
 import java.text.DateFormat
 
-private val TAG = "MessagesAdapter"
 private val FLAG_RM_NAME = 1
 private val FLAG_RM_AVATAR = 2
 private val FLAG_RM_BOTH = 3
@@ -24,7 +23,7 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
     override fun getItemViewType(position: Int): Int {
         val message: Message = myDataset[position]
 
-        if (message.senderId.equals(App.mAuth.currentUser?.uid)) return VT_SENT
+        if (message.senderId.equals(Homies.mAuth.currentUser?.uid)) return VT_SENT
         else return VT_RECEIVED
     }
 

@@ -1,13 +1,13 @@
-package com.rickykuang.homies.adapters
+package com.rickykuang.homies.activities.main.adapters
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.rickykuang.homies.fragments.EventsFragment
-import com.rickykuang.homies.fragments.MessagesFragment
-import com.rickykuang.homies.fragments.ShoppingListFragment
+import com.rickykuang.homies.activities.main.fragments.EventsFragment
+import com.rickykuang.homies.activities.main.fragments.MessagesFragment
+import com.rickykuang.homies.activities.main.fragments.ShoppingListFragment
 
-class MyPagerAdapter(fm : FragmentManager) :  FragmentPagerAdapter(fm) {
+class MainPagerAdapter(fm : FragmentManager) :  FragmentPagerAdapter(fm) {
 
     private val MESSAGES = 0
     private val EVENTS = 1

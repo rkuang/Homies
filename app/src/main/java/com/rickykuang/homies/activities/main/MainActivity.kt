@@ -1,34 +1,32 @@
-package com.rickykuang.homies.activities
+package com.rickykuang.homies.activities.main
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.rickykuang.homies.App
-import com.rickykuang.homies.adapters.MyPagerAdapter
+import com.rickykuang.homies.Homies
+import com.rickykuang.homies.activities.main.adapters.MainPagerAdapter
 import com.rickykuang.homies.R
+import com.rickykuang.homies.activities.SignInActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private val TAG = "MainActivity"
-
-    private lateinit var mPagerAdapter: MyPagerAdapter
+    private lateinit var mPagerAdapter: MainPagerAdapter
     private lateinit var mViewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        App.mAuth = FirebaseAuth.getInstance()
+        Homies.mAuth = FirebaseAuth.getInstance()
 
-        mPagerAdapter = MyPagerAdapter(supportFragmentManager)
+        mPagerAdapter = MainPagerAdapter(supportFragmentManager)
         mViewPager = findViewById(R.id.pager)
         mViewPager.adapter = mPagerAdapter
         mViewPager.offscreenPageLimit = 2
@@ -55,11 +53,10 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        Log.d(TAG, "Logged in as: ${App.mAuth.currentUser?.displayName}")
-
-        if (App.mAuth.currentUser == null) {
+        if (Homies.mAuth.currentUser == null) {
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 

@@ -4,11 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.rickykuang.homies.BuildConfig
+import com.rickykuang.homies.R
+import com.rickykuang.homies.activities.main.MainActivity
+import timber.log.Timber
 import java.util.*
 
 class SignInActivity : AppCompatActivity() {
@@ -25,26 +28,28 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
+        Timber.d("hello")
     }
 
     override fun onStart() {
         super.onStart()
 
+        Timber.d("Checking user")
         val currentUser: FirebaseUser? = mAuth.currentUser
-        Log.d(TAG, "Logged in as: ${currentUser?.displayName}")
 
         if (currentUser == null) {
+            Timber.d("No user, launch FirebaseAuthUI activity")
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setAvailableProviders(providers)
+                            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
+                            .setLogo(R.drawable.logo)
                             .build(),
                     RC_SIGN_IN
             )
         } else {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
@@ -58,7 +63,9 @@ class SignInActivity : AppCompatActivity() {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {
-                Log.e(TAG, response?.error?.errorCode.toString())
+                if (response == null) {
+
+                }
             }
         }
     }
