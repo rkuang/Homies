@@ -45,13 +45,18 @@ class MessagesFragment : Fragment() {
         messageListener = FirestoreUtil.initMessagesListener(messages, viewAdapter, recyclerView)
 
         v.findViewById<ImageButton>(R.id.send_btn).setOnClickListener {
-            send_button_click_listener(v)
+            sendButtonClickListener(v)
         }
 
         return v
     }
 
-    fun send_button_click_listener(v: View) {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        messageListener.remove()
+    }
+
+    fun sendButtonClickListener(v: View) {
         val edit_message = v.findViewById<EditText>(R.id.edit_message)
         if (edit_message.text.isNotEmpty()) {
             val currentUser = Homies.mAuth.currentUser!!
@@ -59,11 +64,5 @@ class MessagesFragment : Fragment() {
             FirestoreUtil.addMessage(message)
             edit_message.text.clear()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        messageListener.remove()
-
     }
 }
