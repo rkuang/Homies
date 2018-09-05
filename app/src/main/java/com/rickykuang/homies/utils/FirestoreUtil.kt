@@ -14,10 +14,10 @@ object FirestoreUtil {
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     fun initMessagesListener(messages: ArrayList<Message>, adapter: MessagesAdapter, recyclerView: RecyclerView): ListenerRegistration {
-        return db.collection("messages").orderBy("timestamp")
+        return db.collection("messages").orderBy("timestamp", Query.Direction.ASCENDING).limit(50)
                 .addSnapshotListener(EventListener<QuerySnapshot> { snapshots, e ->
                     if (e != null) {
-                        Timber.e("Listen error $e")
+                        Timber.e("Listen error: $e")
                         return@EventListener
                     }
 
