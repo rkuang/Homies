@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.rickykuang.homies.Homies
 import com.rickykuang.homies.R
 import com.rickykuang.homies.models.Message
@@ -15,13 +17,13 @@ private val FLAG_RM_NAME = 1
 private val FLAG_RM_AVATAR = 2
 private val FLAG_RM_BOTH = 3
 
-class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
+class MessagesAdapter(options: FirestoreRecyclerOptions<Message>) : FirestoreRecyclerAdapter<Message, MessagesAdapter.ViewHolder>(options) {
 
     private val VT_SENT = 0
     private val VT_RECEIVED = 1
 
     override fun getItemViewType(position: Int): Int {
-        val message: Message = myDataset[position]
+        val message: Message = getItem(position)
 
         if (message.senderId.equals(Homies.mAuth.currentUser?.uid)) return VT_SENT
         else return VT_RECEIVED
@@ -36,25 +38,23 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: MessagesAdapter.ViewHolder, position: Int) {
-        val message = myDataset[position]
-
+    override fun onBindViewHolder(holder: MessagesAdapter.ViewHolder, position: Int, model: Message) {
         var top_message: Message? = null
         var bottom_message: Message? = null
         var flag = 0
         var top_same = false
         var bot_same = false
 
-        if (position < myDataset.size-1)
-            top_message = myDataset[position+1]
+        if (position < itemCount)
+            top_message = getItem(position)
 
         if (position > 0)
-            bottom_message = myDataset[position-1]
+            bottom_message = getItem(position-1)
 
         if (top_message != null)
-            top_same = top_message.senderId.equals(message.senderId)
+            top_same = top_message.senderId.equals(model.senderId)
         if (bottom_message != null)
-            bot_same = bottom_message.senderId.equals(message.senderId)
+            bot_same = bottom_message.senderId.equals(model.senderId)
 
         if (top_same)
             flag = FLAG_RM_NAME
@@ -64,14 +64,12 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
             flag = FLAG_RM_BOTH
 
         when (holder.itemViewType) {
-            VT_SENT -> SentViewHolder(holder.v).bind(message, flag)
+            VT_SENT -> SentViewHolder(holder.v).bind(model, flag)
             VT_RECEIVED -> {
-                ReceivedViewHolder(holder.v).bind(message, flag)
+                ReceivedViewHolder(holder.v).bind(model, flag)
             }
         }
     }
-
-    override fun getItemCount() = myDataset.size
 
     open class ViewHolder(val v: View) : RecyclerView.ViewHolder(v)
 
@@ -140,5 +138,4 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
             }
         }
     }
-
 }
