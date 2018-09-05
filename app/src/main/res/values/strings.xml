@@ -8,4 +8,5 @@
     <string name="avatar">avatar</string>
     <string name="timestamp">12:49 PM</string>
     <string name="testString">test</string>
+    <string name="message_empty">Message cannot be empty</string>
 </resources>
