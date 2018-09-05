@@ -30,25 +30,21 @@ class MessagesFragment : Fragment() {
         nothing_textView.visibility = View.GONE
 
 
-        viewManager = LinearLayoutManager(context)
+        viewManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
         viewManager.stackFromEnd = true
-        viewManager.reverseLayout = true
-
-        val options = FirestoreRecyclerOptions.Builder<Message>()
-                .setQuery(FirestoreUtil.messageQuery, Message::class.java)
-                .setLifecycleOwner(this)
-                .build()
-        viewAdapter = MessagesAdapter(options)
-        viewAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                recyclerView.smoothScrollToPosition(0)
-            }
-        })
+        viewAdapter = initAdapter()
 
         recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
+            addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+                if (bottom < oldBottom) {
+                    recyclerView.postDelayed({
+                        recyclerView.smoothScrollToPosition(0)
+                    }, 100)
+                }
+            }
         }
 
         v.findViewById<ImageButton>(R.id.send_btn).setOnClickListener {
@@ -58,11 +54,7 @@ class MessagesFragment : Fragment() {
         return v
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    fun sendButtonClickListener(v: View) {
+    private fun sendButtonClickListener(v: View) {
         val edit_message = v.findViewById<EditText>(R.id.edit_message)
         if (edit_message.text.isNotEmpty()) {
             val currentUser = Homies.mAuth.currentUser!!
@@ -70,5 +62,19 @@ class MessagesFragment : Fragment() {
             FirestoreUtil.addMessage(message)
             edit_message.text.clear()
         }
+    }
+
+    private fun initAdapter() : MessagesAdapter {
+        val options = FirestoreRecyclerOptions.Builder<Message>()
+                .setQuery(FirestoreUtil.messageQuery, Message::class.java)
+                .setLifecycleOwner(this)
+                .build()
+        val adapter = MessagesAdapter(options)
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                recyclerView.smoothScrollToPosition(0)
+            }
+        })
+        return adapter
     }
 }

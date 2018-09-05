@@ -13,10 +13,6 @@ import com.rickykuang.homies.R
 import com.rickykuang.homies.models.Message
 import java.text.DateFormat
 
-private val FLAG_RM_NAME = 1
-private val FLAG_RM_AVATAR = 2
-private val FLAG_RM_BOTH = 3
-
 class MessagesAdapter(options: FirestoreRecyclerOptions<Message>) : FirestoreRecyclerAdapter<Message, MessagesAdapter.ViewHolder>(options) {
 
     private val VT_SENT = 0
@@ -39,103 +35,38 @@ class MessagesAdapter(options: FirestoreRecyclerOptions<Message>) : FirestoreRec
     }
 
     override fun onBindViewHolder(holder: MessagesAdapter.ViewHolder, position: Int, model: Message) {
-        var top_message: Message? = null
-        var bottom_message: Message? = null
-        var flag = 0
-        var top_same = false
-        var bot_same = false
-
-        if (position < itemCount)
-            top_message = getItem(position)
-
-        if (position > 0)
-            bottom_message = getItem(position-1)
-
-        if (top_message != null)
-            top_same = top_message.senderId.equals(model.senderId)
-        if (bottom_message != null)
-            bot_same = bottom_message.senderId.equals(model.senderId)
-
-        if (top_same)
-            flag = FLAG_RM_NAME
-        else if (bot_same)
-            flag = FLAG_RM_AVATAR
-        if (top_same && bot_same)
-            flag = FLAG_RM_BOTH
-
         when (holder.itemViewType) {
-            VT_SENT -> SentViewHolder(holder.v).bind(model, flag)
+            VT_SENT -> SentViewHolder(holder.v).bind(model)
             VT_RECEIVED -> {
-                ReceivedViewHolder(holder.v).bind(model, flag)
+                ReceivedViewHolder(holder.v).bind(model)
             }
         }
     }
 
-    open class ViewHolder(val v: View) : RecyclerView.ViewHolder(v)
-
-    class SentViewHolder(v: View) : MessagesAdapter.ViewHolder(v) {
+    open class ViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
         val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
         val messageView = v.findViewById<TextView>(R.id.message_body)
         val timestampView = v.findViewById<TextView>(R.id.timestamp)
-        val padding = v.findViewById<View>(R.id.padding)
 
-        fun bind(message: Message, flag: Int) {
+        val senderView = v.findViewById<TextView>(R.id.message_from)
+//        val avatarView = v.findViewById<ImageView>(R.id.avatar)
+
+        open fun bind(message: Message) {
             messageView.text = message.message
             if (message.timestamp == null)
                 timestampView.text = ""
             else
                 timestampView.text = simpleDateFormat.format(message.timestamp)
-            when (flag) {
-                FLAG_RM_AVATAR -> {
-                    padding.visibility = View.GONE
-                }
-                FLAG_RM_BOTH -> {
-                    padding.visibility = View.GONE
-                }
-                else -> {
-                    padding.visibility = View.VISIBLE
-                }
-            }
         }
     }
+
+    class SentViewHolder(v: View) : MessagesAdapter.ViewHolder(v)
 
     class ReceivedViewHolder(v: View) : MessagesAdapter.ViewHolder(v) {
-        val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
-        val messageView = v.findViewById<TextView>(R.id.message_body)
-        val senderView = v.findViewById<TextView>(R.id.message_from)
-        val timestampView = v.findViewById<TextView>(R.id.timestamp)
-        val avatarView = v.findViewById<ImageView>(R.id.avatar)
-        val padding = v.findViewById<View>(R.id.padding)
-
-        fun bind(message: Message, flag: Int) {
+        override fun bind(message: Message) {
             messageView.text = message.message
             senderView.text = message.senderName
-            if (message.timestamp == null)
-                timestampView.text = ""
-            else
-                timestampView.text = simpleDateFormat.format(message.timestamp)
-            when (flag) {
-                FLAG_RM_NAME -> {
-                    senderView.visibility = View.GONE
-                    avatarView.visibility = View.VISIBLE
-                    padding.visibility = View.VISIBLE
-                }
-                FLAG_RM_AVATAR -> {
-                    senderView.visibility = View.VISIBLE
-                    avatarView.visibility = View.INVISIBLE
-                    padding.visibility = View.GONE
-                }
-                FLAG_RM_BOTH -> {
-                    senderView.visibility = View.GONE
-                    avatarView.visibility = View.INVISIBLE
-                    padding.visibility = View.GONE
-                }
-                else -> {
-                    senderView.visibility = View.VISIBLE
-                    avatarView.visibility = View.VISIBLE
-                    padding.visibility = View.VISIBLE
-                }
-            }
+            super.bind(message)
         }
     }
 }
