@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+            android:theme="@style/AppTheme.ActionBar" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
@@ -63,6 +63,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/menu_drawer" />
+        android:theme="@style/AppTheme.NavigationDrawer"
+        app:menu="@menu/menu_drawer"
+        app:headerLayout="@layout/nav_header" />
 
 </android.support.v4.widget.DrawerLayout>

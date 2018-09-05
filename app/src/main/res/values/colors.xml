@@ -7,6 +7,7 @@
     <color name="chat_background">#0ad32f2f</color>
     <color name="chat_bubble">#ff6e00</color>
 
+    <color name="nav_drawer">#424242</color>
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
