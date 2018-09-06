@@ -29,11 +29,18 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesAdapter.ViewHolder {
         lateinit var v : View
+        lateinit var vh : ViewHolder
         when (viewType) {
-            VT_SENT -> v = LayoutInflater.from(parent.context).inflate(R.layout.item_sent_message, parent, false)
-            VT_RECEIVED -> v = LayoutInflater.from(parent.context).inflate(R.layout.item_received_message, parent, false)
+            VT_SENT -> {
+                v = LayoutInflater.from(parent.context).inflate(R.layout.item_sent_message, parent, false)
+                vh = SentViewHolder(v)
+            }
+            VT_RECEIVED -> {
+                v = LayoutInflater.from(parent.context).inflate(R.layout.item_received_message, parent, false)
+                vh = ReceivedViewHolder(v)
+            }
         }
-        return ViewHolder(v)
+        return vh
     }
 
     override fun onBindViewHolder(holder: MessagesAdapter.ViewHolder, position: Int) {
@@ -73,20 +80,29 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
 
     override fun getItemCount() = myDataset.size
 
-    open class ViewHolder(val v: View) : RecyclerView.ViewHolder(v)
-
-    class SentViewHolder(v: View) : MessagesAdapter.ViewHolder(v) {
+    open abstract class ViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
         val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
         val messageView = v.findViewById<TextView>(R.id.message_body)
+        val senderView = v.findViewById<TextView>(R.id.message_from)
         val timestampView = v.findViewById<TextView>(R.id.timestamp)
+        val avatarView = v.findViewById<ImageView>(R.id.avatar)
         val padding = v.findViewById<View>(R.id.padding)
 
-        fun bind(message: Message, flag: Int) {
+        open fun bind(message: Message, flag: Int) {
             messageView.text = message.message
             if (message.timestamp == null)
                 timestampView.text = ""
             else
-                timestampView.text = simpleDateFormat.format(message.timestamp)
+                timestampView.text = simpleDateFormat.format(message.timestamp!!.toDate())
+        }
+
+        abstract fun resetVisibility()
+    }
+
+    class SentViewHolder(v: View) : MessagesAdapter.ViewHolder(v) {
+
+        override fun bind(message: Message, flag: Int) {
+            super.bind(message, flag)
             when (flag) {
                 FLAG_RM_AVATAR -> {
                     padding.visibility = View.GONE
@@ -99,31 +115,23 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
                 }
             }
         }
+
+        override fun resetVisibility() {
+            padding.visibility = View.VISIBLE
+        }
     }
 
     class ReceivedViewHolder(v: View) : MessagesAdapter.ViewHolder(v) {
-        val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
-        val messageView = v.findViewById<TextView>(R.id.message_body)
-        val senderView = v.findViewById<TextView>(R.id.message_from)
-        val timestampView = v.findViewById<TextView>(R.id.timestamp)
-        val avatarView = v.findViewById<ImageView>(R.id.avatar)
-        val padding = v.findViewById<View>(R.id.padding)
 
-        fun bind(message: Message, flag: Int) {
-            messageView.text = message.message
+        override fun bind(message: Message, flag: Int) {
+            super.bind(message, flag)
             senderView.text = message.senderName
-            if (message.timestamp == null)
-                timestampView.text = ""
-            else
-                timestampView.text = simpleDateFormat.format(message.timestamp)
+            resetVisibility()
             when (flag) {
                 FLAG_RM_NAME -> {
                     senderView.visibility = View.GONE
-                    avatarView.visibility = View.VISIBLE
-                    padding.visibility = View.VISIBLE
                 }
                 FLAG_RM_AVATAR -> {
-                    senderView.visibility = View.VISIBLE
                     avatarView.visibility = View.INVISIBLE
                     padding.visibility = View.GONE
                 }
@@ -132,12 +140,14 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
                     avatarView.visibility = View.INVISIBLE
                     padding.visibility = View.GONE
                 }
-                else -> {
-                    senderView.visibility = View.VISIBLE
-                    avatarView.visibility = View.VISIBLE
-                    padding.visibility = View.VISIBLE
-                }
+                else -> { }
             }
+        }
+
+        override fun resetVisibility() {
+            senderView.visibility = View.VISIBLE
+            avatarView.visibility = View.VISIBLE
+            padding.visibility = View.VISIBLE
         }
     }
 

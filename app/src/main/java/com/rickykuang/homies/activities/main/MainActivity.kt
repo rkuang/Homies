@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mViewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Timber.d("onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -47,13 +48,13 @@ class MainActivity : AppCompatActivity() {
         val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         tabLayout.setupWithViewPager(mViewPager, true)
 
-        val drawables: IntArray = intArrayOf(
+        val page_icons: IntArray = intArrayOf(
                 R.drawable.baseline_chat_24,
                 R.drawable.baseline_calendar_today_24,
                 R.drawable.baseline_shopping_cart_24
         )
         for (i in 0..tabLayout.tabCount) {
-            tabLayout.getTabAt(i)?.setIcon(drawables[i])
+            tabLayout.getTabAt(i)?.setIcon(page_icons[i])
         }
     }
 
@@ -67,8 +68,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
         if (Homies.mAuth.currentUser == null) {
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SignInActivity::class.java))
             finish()
         }
     }
@@ -77,9 +77,10 @@ class MainActivity : AppCompatActivity() {
         when (item!!.itemId) {
             R.id.signout -> {
                 AuthUI.getInstance()
-                        .signOut(this).addOnCompleteListener{
-                            val intent = Intent(this, SignInActivity::class.java)
-                            startActivity(intent)
+                        .signOut(this)
+                        .addOnCompleteListener{
+                            startActivity(Intent(this, SignInActivity::class.java))
+                            finish()
                         }
                 return true
             }
