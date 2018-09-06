@@ -28,7 +28,7 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
-        Timber.d("hello")
+        Timber.d("onCreate")
     }
 
     override fun onStart() {
@@ -48,23 +48,29 @@ class SignInActivity : AppCompatActivity() {
                             .build(),
                     RC_SIGN_IN
             )
+//            finish()
         } else {
+            Timber.d("User found, starting MainActivity")
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
+            Timber.d("Return from FirebaseUI Auth")
             val response: IdpResponse? = IdpResponse.fromResultIntent(data)
 
             if (resultCode == Activity.RESULT_OK) {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                Timber.d("Sign in ok")
+                startActivity(Intent(this, MainActivity::class.java))
+//                finish()
             } else {
+                Timber.d("Sign in error")
                 if (response == null) {
-
+                    return
                 }
             }
         }

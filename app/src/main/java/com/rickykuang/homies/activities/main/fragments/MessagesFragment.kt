@@ -77,7 +77,7 @@ class MessagesFragment : Fragment() {
         messageListener.remove()
     }
 
-    fun sendButtonClickListener(v: View) {
+    private fun sendButtonClickListener(v: View) {
         val edit_message = v.findViewById<EditText>(R.id.edit_message)
         if (edit_message.text.isNotEmpty()) {
             val currentUser = Homies.mAuth.currentUser!!
