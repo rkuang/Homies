@@ -21,10 +21,12 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
     private val VT_RECEIVED = 1
 
     override fun getItemViewType(position: Int): Int {
+        val viewType: Int
         val message: Message = myDataset[position]
 
-        if (message.senderId.equals(Homies.mAuth.currentUser?.uid)) return VT_SENT
-        else return VT_RECEIVED
+        if (message.senderId.equals(Homies.mAuth.currentUser?.uid)) viewType = VT_SENT
+        else viewType = VT_RECEIVED
+        return viewType
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesAdapter.ViewHolder {
@@ -80,7 +82,7 @@ class MessagesAdapter(private val myDataset: ArrayList<Message>) : RecyclerView.
 
     override fun getItemCount() = myDataset.size
 
-    open abstract class ViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
+    abstract class ViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
         val simpleDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
         val messageView = v.findViewById<TextView>(R.id.message_body)
         val senderView = v.findViewById<TextView>(R.id.message_from)

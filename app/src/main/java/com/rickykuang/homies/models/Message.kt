@@ -1,12 +1,13 @@
 package com.rickykuang.homies.models
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
 data class Message(var senderId: String = "",
                    var senderName: String = "",
                    var message: String = "",
-                   @ServerTimestamp var timestamp: Date? = null) {
+                   @ServerTimestamp var timestamp: Timestamp? = null) {
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false

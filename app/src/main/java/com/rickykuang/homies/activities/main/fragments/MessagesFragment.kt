@@ -16,6 +16,7 @@ import com.rickykuang.homies.R
 import com.rickykuang.homies.activities.main.adapters.MessagesAdapter
 import com.rickykuang.homies.models.Message
 import com.rickykuang.homies.utils.FirestoreUtil
+import timber.log.Timber
 import java.util.*
 
 
@@ -27,9 +28,6 @@ class MessagesFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_messages, container, false)
-
-        val nothing_textView = v.findViewById<TextView>(R.id.no_messages)
-        nothing_textView.visibility = View.GONE
 
         val messages = ArrayList<Message>()
 
@@ -50,7 +48,22 @@ class MessagesFragment : Fragment() {
             }
         }
 
-        messageListener = FirestoreUtil.initMessagesListener(messages, viewAdapter, recyclerView)
+        messageListener = FirestoreUtil.initMessagesListener(object: FirestoreUtil.MessagesListViewCallback {
+            override fun add(message: Message) {
+                messages.add(0, message)
+                viewAdapter.notifyItemInserted(0)
+                if (messages.size > 1 && messages[1].senderId.equals(messages[0].senderId)) {
+                    viewAdapter.notifyItemChanged(1)
+                }
+                recyclerView.scrollToPosition(0)
+            }
+
+            override fun update(m: Message) {
+                val position = messages.indexOf(m)
+                messages[position].timestamp = m.timestamp
+                viewAdapter.notifyItemChanged(position)
+            }
+        })
 
         v.findViewById<ImageButton>(R.id.send_btn).setOnClickListener {
             sendButtonClickListener(v)

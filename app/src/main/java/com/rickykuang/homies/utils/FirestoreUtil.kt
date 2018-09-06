@@ -1,20 +1,18 @@
 package com.rickykuang.homies.utils
 
-import android.support.v7.widget.RecyclerView
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
-import com.rickykuang.homies.activities.main.adapters.MessagesAdapter
 import com.rickykuang.homies.models.Message
 import timber.log.Timber
-import java.util.*
+
 
 object FirestoreUtil {
 
-    val TAG = "FirestoreUtil"
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    private val messageRef = db.collection("messages").orderBy("timestamp", Query.Direction.ASCENDING)
 
-    fun initMessagesListener(messages: ArrayList<Message>, adapter: MessagesAdapter, recyclerView: RecyclerView): ListenerRegistration {
-        return db.collection("messages").orderBy("timestamp")
+    fun initMessagesListener(callback: MessagesListViewCallback): ListenerRegistration {
+        return messageRef
                 .addSnapshotListener(EventListener<QuerySnapshot> { snapshots, e ->
                     if (e != null) {
                         Timber.e("Listen error $e")
@@ -25,33 +23,14 @@ object FirestoreUtil {
                         when (dc.type) {
                             DocumentChange.Type.ADDED -> {
                                 Timber.d("Message added: ${dc.document.data}")
-                                messages.add(0,
-                                        Message(dc.document.get("senderId") as String,
-                                                dc.document.get("senderName") as String,
-                                                dc.document.get("message") as String,
-                                                dc.document.get("timestamp") as Date?)
-                                )
 
-                                adapter.notifyItemInserted(0)
-                                recyclerView.scrollToPosition(0)
-
-                                if (messages.size > 1 && messages[1].senderId.equals(messages[0].senderId)) {
-                                    adapter.notifyItemChanged(1)
-                                }
+                                callback.add(dc.document.toObject(Message::class.java))
                             }
                             DocumentChange.Type.MODIFIED -> {
-                                Timber.d("Timber: Timestamp updated")
-                                val m = Message(dc.document.get("senderId") as String,
-                                        dc.document.get("senderName") as String,
-                                        dc.document.get("message") as String,
-                                        dc.document.get("timestamp") as Date?)
-                                for (position in 0 until messages.size) {
-                                    if (m.equals(messages[position])) {
-                                        messages[position].timestamp = m.timestamp
-                                        adapter.notifyItemChanged(position)
-                                        break
-                                    }
-                                }
+                                Timber.d("Timestamp updated: ${dc.document.data})")
+                                val message = dc.document.toObject(Message::class.java)
+
+                                callback.update(message)
                             }
                             DocumentChange.Type.REMOVED -> Timber.d("Message removed")
                         }
@@ -62,5 +41,13 @@ object FirestoreUtil {
     fun addMessage(message: Message) {
         db.collection("messages")
                 .add(message)
+    }
+
+    interface MessagesListViewCallback {
+
+        fun add(message: Message)
+
+        fun update(message: Message)
+
     }
 }
