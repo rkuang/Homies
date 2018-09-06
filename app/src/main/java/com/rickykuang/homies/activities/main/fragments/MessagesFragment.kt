@@ -22,7 +22,7 @@ import java.util.*
 class MessagesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: MessagesAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var viewManager: LinearLayoutManager
     private lateinit var messageListener: ListenerRegistration
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,12 +34,20 @@ class MessagesFragment : Fragment() {
         val messages = ArrayList<Message>()
 
         viewAdapter = MessagesAdapter(messages)
-        viewManager = LinearLayoutManager(context, 1, true)
+        viewManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+        viewManager.stackFromEnd = true
 
         recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
+            addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+                if (bottom < oldBottom) {
+                    recyclerView.postDelayed({
+                        recyclerView.smoothScrollToPosition(0)
+                    }, 100)
+                }
+            }
         }
 
         messageListener = FirestoreUtil.initMessagesListener(messages, viewAdapter, recyclerView)
